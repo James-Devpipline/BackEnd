@@ -1,0 +1,26 @@
+{
+	"info": {
+		"_postman_id": "b036e0d3-f8b6-43f7-93e9-e7d05711195b",
+		"name": "Flask Api Static Returns",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25276930"
+	},
+	"item": [
+		{
+			"name": "users get all",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "user get",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
