@@ -18,7 +18,9 @@ def create_all():
             active smallint
         );
     ''')
-    ## var char means variety character
+    ## var char means varying character, this then displays as character varying. 
+        ## to see this, in a shell run python app.py, then do 'psql usermgmt', then '\d "organizations"'
+        ## \d means descripe
     ## smallint can either be boolean, 1 or 0
 
     cursor.execute('''
@@ -34,5 +36,12 @@ def create_all():
 
     conn.commit()
 
+def add_user(first_name, last_name, email, phone, city, state, org_id, active):
+    cursor.execute("INSERT INTO Users (first_name, last_name, email, phone, city, state, org_id, active) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", [first_name, last_name, email, phone, city, state, org_id, active])
+    
+    conn.commit()
 
+## for what not to do in to prevent sql injection attacks go to 1:60:00 on lecture for May 18th
 create_all()
+
+add_user("James", "Hales", "test@email.com", "555-555-5555", "Spanish Fork", "UT", None, 1)
