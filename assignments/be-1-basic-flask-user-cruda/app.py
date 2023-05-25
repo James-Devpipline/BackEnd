@@ -66,7 +66,7 @@ def user_add():
     return jsonify(post_data), 201
 
 
-@app.route('/users/get/all', methods=['GET'])
+@app.route('/users', methods=['GET'])
 def get_all_users():
     cursor.execute("SELECT * FROM Users")
     results = cursor.fetchall()
@@ -138,5 +138,5 @@ def update_user(user_id):
 
 
 if __name__ == "__main__":
-    app.run(port="8086", host="0.0.0.0")
+    app.run(port="8086", host="0.0.0.0", debug = True)
     
