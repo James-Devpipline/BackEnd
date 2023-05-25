@@ -15,78 +15,6 @@ from flask import Flask, request, jsonify
 conn = psycopg2.connect("dbname='company-name'")
 cursor = conn.cursor()
 
-data = [{
-  "id": 1,
-  "first_name": "Bevan",
-  "last_name": "Russon",
-  "email": "brusson0@eventbrite.com",
-  "gender": "Male",
-  "active": 0
-}, {
-  "id": 2,
-  "first_name": "Ivan",
-  "last_name": "Cullingford",
-  "email": "icullingford1@go.com",
-  "gender": "Male",
-  "active": 1
-}, {
-  "id": 3,
-  "first_name": "Jarred",
-  "last_name": "Del Dello",
-  "email": "jdeldello2@4shared.com",
-  "gender": "Male",
-  "active": 0
-}, {
-  "id": 4,
-  "first_name": "Dela",
-  "last_name": "Minker",
-  "email": "dminker3@ucoz.ru",
-  "gender": "Female",
-  "active": 0
-}, {
-  "id": 5,
-  "first_name": "Abbey",
-  "last_name": "Saggs",
-  "email": "asaggs4@cbslocal.com",
-  "gender": "Female",
-  "active": 0
-}, {
-  "id": 6,
-  "first_name": "Keith",
-  "last_name": "Cordelet",
-  "email": "kcordelet5@umn.edu",
-  "gender": "Male",
-  "active": 0
-}, {
-  "id": 7,
-  "first_name": "Marc",
-  "last_name": "Lazenbury",
-  "email": "mlazenbury6@utexas.edu",
-  "gender": "Male",
-  "active": 0
-}, {
-  "id": 8,
-  "first_name": "Rea",
-  "last_name": "Trawin",
-  "email": "rtrawin7@globo.com",
-  "gender": "Female",
-  "active": 1
-}, {
-  "id": 9,
-  "first_name": "Kathi",
-  "last_name": "Gooly",
-  "email": "kgooly8@jimdo.com",
-  "gender": "Agender",
-  "active": 0
-}, {
-  "id": 10,
-  "first_name": "Nissie",
-  "last_name": "Ashbrook",
-  "email": "nashbrook9@dyndns.org",
-  "gender": "Female",
-  "active": 0
-}]
-
 
 def create_all():
    cursor.execute("""
@@ -114,10 +42,15 @@ def create_all():
    """)
    print("Creating tables...")
    conn.commit()
+
+create_all()
+
+app = Flask(__name__)
+
 # Route to Add User to Database
 @app.route('/user/add', methods=['POST'])
 def user_add():
-    post_data = request.get_json()
+    post_data = request.form if request. form else request.json
     first_name = post_data.get('first_name')
     last_name = post_data.get('last_name')
     email = post_data.get('email')
@@ -127,6 +60,83 @@ def user_add():
     org_id = post_data.get('org_id')
     active = post_data.get('active')
 
-    add_user(first_name, last_name, email, phone, city, state, org_id, active)
+    cursor.execute("INSERT INTO Users (first_name, last_name, email,phone,  city, state, org_id, active) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", [first_name, last_name, email, phone, city, state, org_id, active])
+    conn.commit()
     
-    return jsonify("User created"), 201
+    return jsonify(post_data), 201
+
+
+@app.route('/users/get/all', methods=['GET'])
+def get_all_users():
+    cursor.execute("SELECT * FROM Users")
+    results = cursor.fetchall()
+    if not results:
+      return jsonify("No users in db"), 400
+    
+    end_result = []
+    for result in results:
+        result_dict = {
+            "user_id":result[0],
+            "first_name":result[1],
+            "last_name":results[2],
+            "email":result[3],
+            "phone":result[4],
+            "city":result[5],
+            "state":result[6],
+            "org_id":result[7],
+            "active":result[8]
+        }
+        end_result.append(result_dict)
+    return jsonify(end_result), 200
+
+
+@app.route('/users/get/active', methods=['GET'])
+def get_active_users():
+    cursor.execute(f"SELECT * FROM Users WHERE active = {1}")
+    results = cursor.fetchall()
+    if not results:
+      return jsonify("No users in db"), 400
+    
+    end_result = []
+    for result in results:
+        result_dict = {
+            "user_id":result[0],
+            "first_name":result[1],
+            "last_name":results[2],
+            "email":result[3],
+            "phone":result[4],
+            "city":result[5],
+            "state":result[6],
+            "org_id":result[7],
+            "active":result[8]
+        }
+        end_result.append(result_dict)
+    
+
+    return jsonify(end_result), 200
+
+
+@app.route('/users/update/<user_id>', methods=['GET','PATCH'])
+def update_user(user_id):
+    data = request.form if request.form else request.json
+    
+    cursor.execute('SELECT FROM Users WHERE user_id = %s', [user_id])
+    result = cursor.fetchone()
+    if not result:
+        return jsonify("User cannot be updated as user does not exist"), 400
+    
+    first_name = data.get('first_name')
+    last_name = data.get('last_name')
+    email = data.get('email')
+    phone = data.get('phone')
+    city = data.get('city')
+    state = data.get('state')
+    org_id = data.get('org_id')
+    active = data.get('active')
+
+    cursor.execute('UPDATE Users SET first_name = %s, last_name = %s, email = %s, phone = %s, city = %s, state = %s, org_id = %s, active = %s WHERE user_id = %s', [first_name, last_name, email, phone, city, state, org_id, active, user_id])
+
+
+if __name__ == "__main__":
+    app.run(port="8086", host="0.0.0.0")
+    
