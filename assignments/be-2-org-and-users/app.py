@@ -14,32 +14,42 @@ cursor = conn.cursor()
 app = Flask(__name__)
 
 def create_all():
-    cursor.execute("""
-      CREATE TABLE IF NOT EXISTS Users (
-         user_id SERIAL PRIMARY KEY,
-         first_name VARCHAR NOT NULL,
-         last_name VARCHAR,
-         email VARCHAR NOT NULL UNIQUE,
-         phone VARCHAR,
-         city VARCHAR,
-         state VARCHAR,
-         org_id int UNIQUE,
-         active smallint
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Users (
+            user_id SERIAL PRIMARY KEY,
+            first_name VARCHAR NOT NULL,
+            last_name VARCHAR,
+            email VARCHAR NOT NULL UNIQUE,
+            phone VARCHAR,
+            city VARCHAR,
+            state VARCHAR,
+            org_id int,
+            active smallint
       );
-   """)
-    cursor.execute("""
-      CREATE TABLE IF NOT EXISTS Organizations (
-         org_id SERIAL PRIMARY KEY,
-         name VARCHAR NOT NULL,
-         phone VARCHAR,
-         city VARCHAR,
-         state VARCHAR,
-         active smallint,
+   ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Organizations (
+            org_id SERIAL PRIMARY KEY,
+            name VARCHAR NOT NULL,
+            phone VARCHAR,
+            city VARCHAR,
+            state VARCHAR,
+            active smallint
+      );
+   ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Table_Relations (
+            user_org_id SERIAL PRIMARY KEY,
+            user_id int,
+            org_id int,
 
-         FOREIGN KEY (org_id)
-            REFERENCES Users(org_id)
-      );
-   """)
+            FOREIGN KEY (user_id)
+                REFERENCES Users(user_id),
+
+            FOREIGN KEY (org_id)
+                REFERENCES Organizations(org_id)
+    );
+    ''')
     print("Creating tables...")
     conn.commit()
 
@@ -59,6 +69,30 @@ def user_add():
     conn.commit()
 
     return jsonify("User created"), 201
+
+
+@app.route('/users', methods=['GET'])
+def get_all_users():
+    cursor.execute("SELECT * FROM Users")
+    results = cursor.fetchall()
+    if not results:
+      return jsonify("No users in db"), 400
+    
+    end_result = []
+    for result in results:
+        result_dict = {
+            "user_id":result[0],
+            "first_name":result[1],
+            "last_name":result[2],
+            "email":result[3],
+            "phone":result[4],
+            "city":result[5],
+            "state":result[6],
+            "org_id":result[7],
+            "active":result[8]
+        }
+        end_result.append(result_dict)
+    return jsonify(end_result), 200
 
 
 @app.route('/users/active', methods=['GET'])
@@ -112,6 +146,7 @@ def get_user_by_id(id):
         }
 
         return jsonify(result_dict), 200
+    
 
 @app.route('/users/update/<user_id>', methods=['PATCH'])
 def update_user(user_id):
@@ -143,64 +178,74 @@ def update_user(user_id):
     cursor.execute('UPDATE Users SET first_name = %s, last_name = %s, email = %s, phone = %s, city = %s, state = %s, org_id = %s, active = %s WHERE user_id = %s', [results_dictionary["first_name"], results_dictionary["last_name"], results_dictionary["email"], results_dictionary["phone"], results_dictionary["city"], results_dictionary["state"], results_dictionary["org_id"], results_dictionary["active"], results_dictionary["user_id"]])
 
     conn.commit()
-    return jsonify('user updated')
+    return jsonify('User updated')
 
 
-@app.route('/user/update/<id>', methods=["PUT"])
-def update_user_by_id(id):
-    cursor.execute(
-        "SELECT user_id, first_name, last_name, email, phone, city, state, org_id, active FROM Users WHERE user_id =%s;",
-        [id])
-    result = cursor.fetchone()
+@app.route('/user/delete/<user_id>', methods=["DELETE"])
+def delete_user_by_id(user_id):
+    cursor.execute("DELETE FROM Users WHERE user_id = %s", [user_id])
 
-    if not result:
-        return jsonify('That user does not exist'), 404
-    else:
-
-        result_dict = {
-            "user_id": result[0],
-            "first_name": result[1],
-            "last_name": result[2],
-            "email": result[3],
-            "phone": result[4],
-            "city": result[5],
-            "state": result[6],
-            "org_id": result[7],
-            "active": result[8]
-        }
-
-    data = request.form if request.form else request.json
-
-    for key, value in data.copy().items():
-        if not value:
-            data.pop(key)
-
-    result_dict.update(data)
-
-    cursor.execute(
-        '''UPDATE Users SET 
-        first_name = %s, 
-        last_name= %s, 
-        email= %s, 
-        phone= %s, 
-        city= %s, 
-        state= %s, 
-        org_id= %s, 
-        active= %s 
-        
-        WHERE user_id = %s
-    ;''',
-        [result_dict['first_name'],
-         result_dict['last_name'],
-         result_dict["email"],
-         result_dict["phone"],
-         result_dict["city"],
-         result_dict['state'],
-         result_dict['org_id'],
-         result_dict['active'],
-         result_dict['user_id']])
     conn.commit()
-    return jsonify('user updated')
+    return jsonify('User Deleted')
+
+# @app.route('/user/update/<id>', methods=["PUT"])
+# def update_user_by_id(id):
+#     cursor.execute(
+#         "SELECT user_id, first_name, last_name, email, phone, city, state, org_id, active FROM Users WHERE user_id =%s;",
+#         [id])
+#     result = cursor.fetchone()
+
+#     if not result:
+#         return jsonify('That user does not exist'), 404
+#     else:
+
+#         result_dict = {
+#             "user_id": result[0],
+#             "first_name": result[1],
+#             "last_name": result[2],
+#             "email": result[3],
+#             "phone": result[4],
+#             "city": result[5],
+#             "state": result[6],
+#             "org_id": result[7],
+#             "active": result[8]
+#         }
+
+#     data = request.form if request.form else request.json
+
+#     for key, value in data.copy().items():
+#         if not value:
+#             data.pop(key)
+
+#     result_dict.update(data)
+
+#     cursor.execute(
+#         '''UPDATE Users SET 
+#         first_name = %s, 
+#         last_name= %s, 
+#         email= %s, 
+#         phone= %s, 
+#         city= %s, 
+#         state= %s, 
+#         org_id= %s, 
+#         active= %s 
+        
+#         WHERE user_id = %s
+#     ;''',
+#         [result_dict['first_name'],
+#          result_dict['last_name'],
+#          result_dict["email"],
+#          result_dict["phone"],
+#          result_dict["city"],
+#          result_dict['state'],
+#          result_dict['org_id'],
+#          result_dict['active'],
+#          result_dict['user_id']])
+#     conn.commit()
+#     return jsonify('user updated')
+
+
+
 
 
 if __name__ == "__main__":
