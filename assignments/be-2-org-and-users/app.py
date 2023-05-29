@@ -24,7 +24,7 @@ def create_all():
          phone VARCHAR,
          city VARCHAR,
          state VARCHAR,
-         org_id int,
+         org_id int UNIQUE,
          active smallint
       );
    """)
@@ -35,7 +35,10 @@ def create_all():
          phone VARCHAR,
          city VARCHAR,
          state VARCHAR,
-         active smallint
+         active smallint,
+
+         FOREIGN KEY (org_id)
+            REFERENCES Users(org_id)
       );
    """)
     print("Creating tables...")
