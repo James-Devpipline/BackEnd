@@ -78,7 +78,7 @@ def get_all_users():
         result_dict = {
             "user_id":result[0],
             "first_name":result[1],
-            "last_name":results[2],
+            "last_name":result[2],
             "email":result[3],
             "phone":result[4],
             "city":result[5],
@@ -90,9 +90,10 @@ def get_all_users():
     return jsonify(end_result), 200
 
 
-@app.route('/users/get/active', methods=['GET'])
+@app.route('/users/active', methods=['GET'])
 def get_active_users():
     cursor.execute(f"SELECT * FROM Users WHERE active = {1}")
+    print(cursor.execute(f"SELECT * FROM Users WHERE active = {1}"))
     results = cursor.fetchall()
     if not results:
       return jsonify("No users in db"), 400
@@ -102,7 +103,7 @@ def get_active_users():
         result_dict = {
             "user_id":result[0],
             "first_name":result[1],
-            "last_name":results[2],
+            "last_name":result[2],
             "email":result[3],
             "phone":result[4],
             "city":result[5],
