@@ -13,7 +13,6 @@ cursor = conn.cursor()
 
 app = Flask(__name__)
 
-# Create the Database
 def create_all():
     cursor.execute("""
       CREATE TABLE IF NOT EXISTS Users (
