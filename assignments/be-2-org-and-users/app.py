@@ -15,19 +15,6 @@ app = Flask(__name__)
 
 def create_all():
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS Users (
-            user_id SERIAL PRIMARY KEY,
-            first_name VARCHAR NOT NULL,
-            last_name VARCHAR,
-            email VARCHAR NOT NULL UNIQUE,
-            phone VARCHAR,
-            city VARCHAR,
-            state VARCHAR,
-            org_id int,
-            active smallint
-      );
-   ''')
-    cursor.execute('''
         CREATE TABLE IF NOT EXISTS Organizations (
             org_id SERIAL PRIMARY KEY,
             name VARCHAR NOT NULL,
@@ -37,19 +24,23 @@ def create_all():
             active smallint
       );
    ''')
+        
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS Table_Relations (
-            user_org_id SERIAL PRIMARY KEY,
-            user_id int,
+        CREATE TABLE IF NOT EXISTS Users (
+            user_id SERIAL PRIMARY KEY,
+            first_name VARCHAR NOT NULL,
+            last_name VARCHAR,
+            email VARCHAR NOT NULL UNIQUE,
+            phone VARCHAR,
+            city VARCHAR,
+            state VARCHAR,
             org_id int,
-
-            FOREIGN KEY (user_id)
-                REFERENCES Users(user_id),
-
+            active smallint,
             FOREIGN KEY (org_id)
                 REFERENCES Organizations(org_id)
-    );
-    ''')
+      );
+   ''')
+    
     print("Creating tables...")
     conn.commit()
 
