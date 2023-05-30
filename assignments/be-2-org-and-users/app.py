@@ -41,6 +41,9 @@ def create_all():
       );
    ''')
     
+    # users table is created second as it needs to reference organizations for the foreign key
+    # and it can't if the organizations table doesn't exist already
+    
     print("Creating tables...")
     conn.commit()
 
