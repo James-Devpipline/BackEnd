@@ -73,7 +73,7 @@ def user_add():
 
 @app.route('/users', methods=['GET'])
 def get_all_users():
-    cursor.execute("SELECT * FROM Users")
+    cursor.execute("SELECT user_id, first_name, last_name, email, phone, city, state, org_id, active FROM Users")
     results = cursor.fetchall()
     if not results:
       return jsonify("No users in db"), 400
@@ -97,7 +97,7 @@ def get_all_users():
 
 @app.route('/users/active', methods=['GET'])
 def get_active_users():
-    cursor.execute(f"SELECT * FROM Users WHERE active = 1;")
+    cursor.execute(f"SELECT user_id, first_name, last_name, email, phone, city, state, org_id, active FROM Users WHERE active = 1;")
     print(cursor.execute(f"SELECT * FROM Users WHERE active = {1}"))
     results = cursor.fetchall()
     if not results:
@@ -125,7 +125,7 @@ def get_active_users():
 @app.route('/user/<id>', methods=["GET"])
 def get_user_by_id(id):
     cursor.execute(
-        "SELECT * FROM Users WHERE user_id = %s;",
+        "SELECT user_id, first_name, last_name, email, phone, city, state, org_id, active FROM Users WHERE user_id = %s;",
         [id])
     result = cursor.fetchone()
 
@@ -150,7 +150,7 @@ def get_user_by_id(id):
 
 @app.route('/users/update/<user_id>', methods=['PATCH'])
 def update_user(user_id):
-    cursor.execute('SELECT * FROM Users WHERE user_id = %s', [user_id])
+    cursor.execute('SELECT user_id, first_name, last_name, email, phone, city, state, org_id, active FROM Users WHERE user_id = %s', [user_id])
     result = cursor.fetchone()
 
     if not result:
