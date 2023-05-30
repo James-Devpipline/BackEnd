@@ -65,7 +65,7 @@ def user_add():
     org_id = post_data.get('org_id')
     active = post_data.get('active')
 
-    cursor.execute("INSERT INTO Users (first_name, last_name, email,phone,  city, state, org_id, active) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", [first_name, last_name, email, phone, city, state, org_id, active])
+    cursor.execute("INSERT INTO Users (first_name, last_name, email, phone,  city, state, org_id, active) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", [first_name, last_name, email, phone, city, state, org_id, active])
     conn.commit()
 
     return jsonify("User created"), 201
@@ -76,7 +76,7 @@ def get_all_users():
     cursor.execute("SELECT user_id, first_name, last_name, email, phone, city, state, org_id, active FROM Users")
     results = cursor.fetchall()
     if not results:
-      return jsonify("No users in db"), 400
+      return jsonify("No users in database"), 400
     
     end_result = []
     for result in results:
@@ -121,11 +121,11 @@ def get_active_users():
     return jsonify(end_result), 200
 
 
-@app.route('/user/<id>', methods=["GET"])
-def get_user_by_id(id):
+@app.route('/user/<user_id>', methods=["GET"])
+def get_user_by_id(user_id):
     cursor.execute(
         "SELECT user_id, first_name, last_name, email, phone, city, state, org_id, active FROM Users WHERE user_id = %s;",
-        [id])
+        [user_id])
     result = cursor.fetchone()
 
     if not result:
@@ -147,7 +147,7 @@ def get_user_by_id(id):
         return jsonify(result_dict), 200
     
 
-@app.route('/users/update/<user_id>', methods=['PATCH'])
+@app.route('/user/update/<user_id>', methods=['PATCH'])
 def update_user(user_id):
     cursor.execute('SELECT user_id, first_name, last_name, email, phone, city, state, org_id, active FROM Users WHERE user_id = %s', [user_id])
     result = cursor.fetchone()
@@ -167,7 +167,7 @@ def update_user(user_id):
             "active" : result[8]
         }
         
-        data = request.json
+        data = request.form if request.form else request.json
         # for key, value in data.copy().items():
         #     if not value:
         #         data.pop(key)
@@ -187,6 +187,127 @@ def delete_user_by_id(user_id):
 
     conn.commit()
     return jsonify('User Deleted')
+
+
+### ORGANZITIONS ROUTES ###
+
+
+@app.route('/org/add', methods=["POST"])
+def add_org():
+    post_data = request.form if request.form else request.json
+    name = post_data.get('name')
+    phone = post_data.get('phone')
+    city = post_data.get('city')
+    state = post_data.get('state')
+    active = post_data.get('active')
+
+    cursor.execute("INSERT INTO Organizations (name, phone, city, state, active) VALUES (%s, %s, %s, %s, %s)", [name, phone, city, state, active])
+    conn.commit()
+
+    return jsonify("Organization created"), 201
+
+
+@app.route('/orgs', methods=["GET"])
+def get_all_orgs():
+    cursor.execute("SELECT org_id, name, phone, city, state, active FROM Organizations")
+    results = cursor.fetchall()
+    if not results:
+      return jsonify("No Organizations in database"), 400
+    
+    end_result = []
+    for result in results:
+        result_dict = {
+            "org_id":result[0],
+            "name":result[1],
+            "phone":result[2],
+            "city":result[3],
+            "state":result[4],
+            "active":result[5]
+        }
+        end_result.append(result_dict)
+    return jsonify(end_result), 200
+
+
+@app.route('/orgs/active', methods=["GET"])
+def get_all_active_orgs():
+    cursor.execute("SELECT org_id, name, phone, city, state, active FROM Organizations WHERE active = 1;")
+    results = cursor.fetchall()
+    if not results:
+      return jsonify("No active Organizations in database"), 400
+    
+    end_result = []
+    for result in results:
+        result_dict = {
+            "org_id":result[0],
+            "name":result[1],
+            "phone":result[2],
+            "city":result[3],
+            "state":result[4],
+            "active":result[5]
+        }
+        end_result.append(result_dict)
+    
+
+    return jsonify(end_result), 200
+
+
+@app.route('/orgs/<org_id>', methods=["GET"])
+def get_org_by_id(org_id):
+    cursor.execute(
+        "SELECT org_id, name, phone, city, state, active FROM Organizations WHERE org_id = %s;",
+        [org_id])
+    result = cursor.fetchone()
+
+    if not result:
+        return jsonify('That Organization does not exist'), 404
+    else:
+        result_dict = {
+            "org_id":result[0],
+            "name":result[1],
+            "phone":result[2],
+            "city":result[3],
+            "state":result[4],
+            "active":result[5]
+        }
+
+        return jsonify(result_dict), 200
+    
+
+@app.route('/org/update/<org_id>', methods=['PATCH'])
+def update_org(org_id):
+    cursor.execute('SELECT org_id, name, phone, city, state, active FROM Organizations WHERE org_id = %s', [org_id])
+    result = cursor.fetchone()
+
+    if not result:
+        return jsonify("Organization does not exist in database"), 400
+    else:
+        results_dictionary = {
+            "org_id":result[0],
+            "name":result[1],
+            "phone":result[2],
+            "city":result[3],
+            "state":result[4],
+            "active":result[5]
+        }
+        
+        data = request.form if request.form else request.json
+
+        results_dictionary.update(data)
+
+        cursor.execute('UPDATE Organizations SET name = %s, phone = %s, city = %s, state = %s, active = %s WHERE org_id = %s', [results_dictionary["name"], results_dictionary["phone"], results_dictionary["city"], results_dictionary["state"], results_dictionary["active"], results_dictionary["org_id"]])
+
+        conn.commit()
+
+        return jsonify('User updated')
+    
+
+@app.route('/org/delete/<org_id>', methods=["DELETE"])
+def delete_org_by_id(org_id):
+    cursor.execute("DELETE FROM Organizations WHERE org_id = %s", [org_id])
+
+    conn.commit()
+    return jsonify('Organization Deleted')
+
 
 
 if __name__ == "__main__":
