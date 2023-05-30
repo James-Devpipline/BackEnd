@@ -97,8 +97,7 @@ def get_all_users():
 
 @app.route('/users/active', methods=['GET'])
 def get_active_users():
-    cursor.execute(f"SELECT user_id, first_name, last_name, email, phone, city, state, org_id, active FROM Users WHERE active = 1;")
-    print(cursor.execute(f"SELECT * FROM Users WHERE active = {1}"))
+    cursor.execute("SELECT user_id, first_name, last_name, email, phone, city, state, org_id, active FROM Users WHERE active = 1;")
     results = cursor.fetchall()
     if not results:
       return jsonify("No active users in database"), 400
@@ -155,31 +154,32 @@ def update_user(user_id):
 
     if not result:
         return jsonify("User does not exist in database"), 400
+    else:
+        results_dictionary = {
+            "user_id" : result[0],
+            "first_name" : result[1],
+            "last_name" : result[2],
+            "email" : result[3],
+            "phone" : result[4],
+            "city" : result[5],
+            "state" : result[6],
+            "org_id" : result[7],
+            "active" : result[8]
+        }
+        
+        data = request.json
+        # for key, value in data.copy().items():
+        #     if not value:
+        #         data.pop(key)
+
+        results_dictionary.update(data)
+
+        cursor.execute('UPDATE Users SET first_name = %s, last_name = %s, email = %s, phone = %s, city = %s, state = %s, org_id = %s, active = %s WHERE user_id = %s', [results_dictionary["first_name"], results_dictionary["last_name"], results_dictionary["email"], results_dictionary["phone"], results_dictionary["city"], results_dictionary["state"], results_dictionary["org_id"], results_dictionary["active"], results_dictionary["user_id"]])
+
+        conn.commit()
+
+        return jsonify('User updated')
     
-    results_dictionary = {
-        "user_id" : result[0],
-        "first_name" : result[1],
-        "last_name" : result[2],
-        "email" : result[3],
-        "phone" : result[4],
-        "city" : result[5],
-        "state" : result[6],
-        "org_id" : result[7],
-        "active" : result[8]
-    }
-    
-    data = request.form if request.form else request.json
-
-    for key, value in data.copy().items():
-        if not value:
-            data.pop(key)
-    results_dictionary.update(data)
-
-    cursor.execute('UPDATE Users SET first_name = %s, last_name = %s, email = %s, phone = %s, city = %s, state = %s, org_id = %s, active = %s WHERE user_id = %s', [results_dictionary["first_name"], results_dictionary["last_name"], results_dictionary["email"], results_dictionary["phone"], results_dictionary["city"], results_dictionary["state"], results_dictionary["org_id"], results_dictionary["active"], results_dictionary["user_id"]])
-
-    conn.commit()
-    return jsonify('User updated')
-
 
 @app.route('/user/delete/<user_id>', methods=["DELETE"])
 def delete_user_by_id(user_id):
@@ -187,65 +187,6 @@ def delete_user_by_id(user_id):
 
     conn.commit()
     return jsonify('User Deleted')
-
-# @app.route('/user/update/<id>', methods=["PUT"])
-# def update_user_by_id(id):
-#     cursor.execute(
-#         "SELECT user_id, first_name, last_name, email, phone, city, state, org_id, active FROM Users WHERE user_id =%s;",
-#         [id])
-#     result = cursor.fetchone()
-
-#     if not result:
-#         return jsonify('That user does not exist'), 404
-#     else:
-
-#         result_dict = {
-#             "user_id": result[0],
-#             "first_name": result[1],
-#             "last_name": result[2],
-#             "email": result[3],
-#             "phone": result[4],
-#             "city": result[5],
-#             "state": result[6],
-#             "org_id": result[7],
-#             "active": result[8]
-#         }
-
-#     data = request.form if request.form else request.json
-
-#     for key, value in data.copy().items():
-#         if not value:
-#             data.pop(key)
-
-#     result_dict.update(data)
-
-#     cursor.execute(
-#         '''UPDATE Users SET 
-#         first_name = %s, 
-#         last_name= %s, 
-#         email= %s, 
-#         phone= %s, 
-#         city= %s, 
-#         state= %s, 
-#         org_id= %s, 
-#         active= %s 
-        
-#         WHERE user_id = %s
-#     ;''',
-#         [result_dict['first_name'],
-#          result_dict['last_name'],
-#          result_dict["email"],
-#          result_dict["phone"],
-#          result_dict["city"],
-#          result_dict['state'],
-#          result_dict['org_id'],
-#          result_dict['active'],
-#          result_dict['user_id']])
-#     conn.commit()
-#     return jsonify('user updated')
-
-
-
 
 
 if __name__ == "__main__":
