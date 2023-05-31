@@ -72,8 +72,27 @@ def get_all_users():
     if not results:
       return jsonify("No users in database"), 400
     
+    
     end_result = []
     for result in results:
+        cursor.execute(
+        "SELECT org_id, name, phone, city, state, active FROM Organizations WHERE org_id = %s;",
+        [result[7]])
+        org_data = cursor.fetchone()
+
+        if not org_data:
+            org_dict = 'No Org Information available'
+        else:
+            org_dict = {
+                "org_id":org_data[0],
+                "name":org_data[1],
+                "phone":org_data[2],
+                "city":org_data[3],
+                "state":org_data[4],
+                "active":org_data[5]
+            }
+
+        
         result_dict = {
             "user_id":result[0],
             "first_name":result[1],
@@ -82,7 +101,7 @@ def get_all_users():
             "phone":result[4],
             "city":result[5],
             "state":result[6],
-            "org_id":result[7],
+            "org_id":org_dict,
             "active":result[8]
         }
         end_result.append(result_dict)
@@ -98,6 +117,23 @@ def get_active_users():
     
     end_result = []
     for result in results:
+        cursor.execute(
+        "SELECT org_id, name, phone, city, state, active FROM Organizations WHERE org_id = %s;",
+        [result[7]])
+        org_data = cursor.fetchone()
+
+        if not org_data:
+            org_dict = 'No Org Information available'
+        else:
+            org_dict = {
+                "org_id":org_data[0],
+                "name":org_data[1],
+                "phone":org_data[2],
+                "city":org_data[3],
+                "state":org_data[4],
+                "active":org_data[5]
+            }
+
         result_dict = {
             "user_id":result[0],
             "first_name":result[1],
@@ -106,7 +142,7 @@ def get_active_users():
             "phone":result[4],
             "city":result[5],
             "state":result[6],
-            "org_id":result[7],
+            "org_id":org_dict,
             "active":result[8]
         }
         end_result.append(result_dict)
@@ -122,23 +158,36 @@ def get_user_by_id(user_id):
         [user_id])
     result = cursor.fetchone()
 
-    if not result:
-        return jsonify('That user does not exist'), 404
-    else:
+    cursor.execute(
+        "SELECT org_id, name, phone, city, state, active FROM Organizations WHERE org_id = %s;",
+        [result[7]])
+    org_data = cursor.fetchone()
 
-        result_dict = {
-            "user_id": result[0],
-            "first_name": result[1],
-            "last_name": result[2],
-            "email": result[3],
-            "phone": result[4],
-            "city": result[5],
-            "state": result[6],
-            "org_id": result[7],
-            "active": result[8]
+    if not org_data:
+        org_dict = 'No Org Information available'
+    else:
+        org_dict = {
+            "org_id":org_data[0],
+            "name":org_data[1],
+            "phone":org_data[2],
+            "city":org_data[3],
+            "state":org_data[4],
+            "active":org_data[5]
         }
 
-        return jsonify(result_dict), 200
+    result_dict = {
+        "user_id":result[0],
+        "first_name":result[1],
+        "last_name":result[2],
+        "email":result[3],
+        "phone":result[4],
+        "city":result[5],
+        "state":result[6],
+        "org_id":org_dict,
+        "active":result[8]
+    }
+
+    return jsonify(result_dict), 200
     
 
 @app.route('/user/update/<user_id>', methods=['PATCH'])
