@@ -7,7 +7,7 @@ class Users(db.Model):
     __tablename__ = "Users"
 
     user_id = db.Column(UUID(as_uuid = True), primary_key = True, default = uuid.uuid4)
-    first_name = db.Column(db.String(), nulable = False)
+    first_name = db.Column(db.String(), nullable = False)
     last_name = db.Column(db.String())
     email = db.Column(db.String(), nullable = False, unique = True)
     phone = db.Column(db.String())

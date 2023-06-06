@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from db import *
 import os
+from users import Users
+from organizations import Organizations
 
 # database_uri = os.environ.get("SQLALCHEMY_DATABASE_URI")
 database_pre = os.environ.get("DATABASE_PRE")
