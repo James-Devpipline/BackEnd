@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify
 from db import *
 import os
-from users import Users
-from organizations import Organizations
+from users import Users, users_schema, user_schema
+from organizations import Organizations, organizations_schema, organization_schema
+from flask_marshmallow import Marshmallow
 
 # python3 -m pipenv shell
 # pipenv install flask flask_sqlalchemy sqlalchemy
@@ -24,6 +25,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 init_db(app, db)
+ma = Marshmallow(app)
 
 def create_all():
     with app.app_context():
@@ -85,6 +87,13 @@ def add_user():
 
     return jsonify('User Created'), 200
 
+@app.route("/orgs/get", methods=["GET"])
+def get_all_orgs():
+    orgs = db.session.query(Organizations).all()
+    if not orgs:
+        return jsonify("There are no orgs"), 404
+    else:
+        return jsonify(organizations_schema.dump(orgs))
 
 @app.route("/org/get/<id>", methods=["GET"])
 def get_org_by_id(id):
@@ -105,35 +114,14 @@ def get_org_by_id(id):
     return jsonify(org_record_dict), 200
 
 
-@app.route('/users/get', methods=['GET'])
+@app.route('/users', methods=['GET'])
 def get_all_active_users():
     users = db.session.query(Users).filter(Users.active == True).all()
 
-    users_list = []
-
-    for user in users:
-        user_dict = {
-            "user_id": user.user_id,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-            "email": user.email,
-            "phone": user.phone,
-            "city": user.city,
-            "state": user.state,
-            "organization": {
-                "org_id": user.organization.org_id,
-                "name": user.organization.name,
-                "phone": user.organization.phone,
-                "city": user.organization.city,
-                "state": user.organization.state,
-                "active": user.organization.active,
-            },
-
-            "active": user.active,
-        }
-
-        users_list.append(user_dict)
-    return jsonify(users_list), 200
+    if not users:
+        return jsonify('No Users Exist'), 404
+    else:
+        return jsonify(users_schema.dump(users)), 200
 
 
 @app.route("/user/get/<id>", methods=["GET"])
@@ -141,34 +129,13 @@ def get_users_by_id(id):
     user = db.session.query(Users).filter(Users.user_id == id).first()
 
     if not user:
-        return jsonify("That user doesn't exit"), 404
+        return jsonify("That user doesn't exist"), 404
+    else:
+        return jsonify(user_schema.dump(user)), 200
+    
 
-    user_dict = {
-        "user_id": user.user_id,
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "email": user.email,
-        "phone": user.phone,
-        "city": user.city,
-        "state": user.state,
-        "organization": {
-            "org_id": user.organization.org_id,
-            "name": user.organization.name,
-            "phone": user.organization.phone,
-            "city": user.organization.city,
-            "state": user.organization.state,
-            "active": user.organization.active,
-        },
-        "active": user.active,
-    }
-
-    return jsonify(user_dict), 200
 
 
 if __name__ == "__main__":
     create_all()
-    app.run(port=8086, host="0.0.0.0")
-
-if __name__ == "__main__":
-    create_all()
-    app.run(port=8086, host="0.0.0.0")
+    app.run(port=8086, host="0.0.0.0", debug=True)
