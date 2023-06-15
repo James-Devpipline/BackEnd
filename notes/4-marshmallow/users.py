@@ -18,7 +18,7 @@ class Users(db.Model):
 
     active = db.Column(db.Boolean(), default=True)
 
-    def __init__(self, first_name, last_name, email, phone, city, state, org_id, active):
+    def __init(self, first_name, last_name, email, phone, city, state, org_id, active):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
