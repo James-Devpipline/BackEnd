@@ -14,7 +14,7 @@ class Organizations(db.Model):
     phone = db.Column(db.String())
     active = db.Column(db.String(), default = True)
 
-    users = db.relationship("users", backref="organization", lazy=True)
+    users = db.relationship("Users", backref="organization", lazy=True)
 
     def __init__(self, name, city, state, phone, active):
         self.name = name
