@@ -27,12 +27,17 @@ print('\n-------------------------------------------\n')
 
 def flatten_list(lst):
     working_list = []
-    for nested_list in lst:
-        for item in nested_list:
+  
+    while lst:
+        item = lst.pop(0)
+      
+        if isinstance(item, list):
+            lst = item + lst
+        else:
             working_list.append(item)
     return working_list
 
-test_list = [[1], [2, 3], [4, 5, 6, 7]]
+test_list = [1, [2, [3, 4], 5], 6]
 
 print(f'Before: {test_list}')
 print(f'After: {flatten_list(test_list)}')
