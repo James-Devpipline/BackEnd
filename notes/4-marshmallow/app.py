@@ -9,7 +9,7 @@ from flask_marshmallow import Marshmallow
 # pipenv install flask flask_sqlalchemy sqlalchemy
 # pipenv install psycopg2
 
-# database_uri = os.environ.get("SQLALCHEMY_DATABASE_URI")
+
 database_pre = os.environ.get("DATABASE_PRE")
 database_addr = os.environ.get("DATABASE_ADDR")
 database_user = os.environ.get("DATABASE_USER")
