@@ -2,7 +2,7 @@ import marshmallow as ma
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from recorded_exercises import RecSchema
-from exercises import ExSchema
+from exercise import ExSchema
 
 from db import db
 

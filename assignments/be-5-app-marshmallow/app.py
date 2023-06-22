@@ -1,9 +1,13 @@
 from flask import Flask, request, jsonify
 from db import *
 import os
-# from users import Users, users_schema, user_schema
-# from organizations import Organizations, organizations_schema, organization_schema
 from flask_marshmallow import Marshmallow
+
+from exercises import exercises
+from exercise_types import exercise_types
+from muscles import muscles
+from personal_records import personal_records
+from recorded_exercises import recorded_exercises
 
 # python3 -m pipenv install flask flask_sqlalchemy sqlalchemy psycopg2 marshmallow flask-marshmallow marshmallow-sqlalchemy
 
@@ -28,3 +32,6 @@ def create_all():
         db.create_all()
         print("All Done")
 
+if __name__ == "__main__":
+    create_all()
+    app.run(port=8086, host="0.0.0.0", debug=True)
