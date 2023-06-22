@@ -6,7 +6,7 @@ from exercises import ExSchema
 
 from db import db
 
-class recorded_exercises(db.Model):
+class RecordedExercises(db.Model):
     __tablename__ = "RecordedExercises"
 
     recorded_id = db.Column(UUID(as_uuid=True),primary_key = True, default = uuid.uuid4)
@@ -17,7 +17,7 @@ class recorded_exercises(db.Model):
     distance = db.Column(db.String())
     time = db.Column(db.String())
     notes = db.Column(db.String())
-    is_personal_record = db.Column(db.Boolean(), defualt = False)
+    is_personal_record = db.Column(db.Boolean(), default = False)
     video_url = db.Column(db.String())
 
     def __init__(self, exercise_id, date, sets, reps, distance, time, notes, is_personal_record, video_url):

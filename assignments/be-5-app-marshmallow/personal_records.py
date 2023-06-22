@@ -2,11 +2,11 @@ import marshmallow as ma
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from recorded_exercises import RecSchema
-from exercise import ExSchema
+from exercises import ExSchema
 
 from db import db
 
-class personal_records(db.Model):
+class PersonalRecords(db.Model):
     __tablename__ = "PersonalRecords"
 
     recorded_exercise = db.Column(UUID (as_uuid=True), db.ForeignKey("RecordedExercises.recorded_id"), primary_key = True, default = uuid.uuid4, )

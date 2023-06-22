@@ -4,10 +4,10 @@ import os
 from flask_marshmallow import Marshmallow
 
 from exercises import exercises
-from exercise_types import exercise_types
+from exercise_types import ExerciseTypes
 from muscles import muscles
-from personal_records import personal_records
-from recorded_exercises import recorded_exercises
+from personal_records import PersonalRecords
+from recorded_exercises import RecordedExercises
 
 # python3 -m pipenv install flask flask_sqlalchemy sqlalchemy psycopg2 marshmallow flask-marshmallow marshmallow-sqlalchemy
 

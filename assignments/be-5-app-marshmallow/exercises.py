@@ -11,8 +11,8 @@ class exercises(db.Model):
 
     exercise_id = db.Column(UUID (as_uuid=True), primary_key = True, default = uuid.uuid4)
     name = db.Column(db.String(), nullable = False)
-    muscles_targeted = db.Column(db.String(), db.ForeignKey("Muscles.Muscle_id"), nullable = False)
-    exercise_types = db.Column(db.String(), db.ForeignKey("TypeOfExercises.type_id"), nullable = False) 
+    muscles_targeted = db.Column(UUID (as_uuid=True), db.ForeignKey("Muscles.muscle_id"), nullable = False)
+    exercise_types = db.Column(UUID (as_uuid=True), db.ForeignKey("ExerciseTypes.type_id"), nullable = False) 
     image_url = db.Column(db.String())
     description = db.Column(db.String())
 
