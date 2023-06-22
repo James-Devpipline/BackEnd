@@ -3,11 +3,12 @@ from db import *
 import os
 from flask_marshmallow import Marshmallow
 
-from exercises import exercises
-from exercise_types import ExerciseTypes
-from muscles import muscles
-from personal_records import PersonalRecords
-from recorded_exercises import RecordedExercises
+from models.exercises import exercises
+from models.exercise_types import ExerciseTypes
+from models.muscles import muscles
+from models.personal_records import PersonalRecords
+from models.recorded_exercises import RecordedExercises
+import routes
 
 # python3 -m pipenv install flask flask_sqlalchemy sqlalchemy psycopg2 marshmallow flask-marshmallow marshmallow-sqlalchemy
 
@@ -31,6 +32,12 @@ def create_all():
         print("creating Tables")
         db.create_all()
         print("All Done")
+
+app.register_blueprint(routes.ex_type)
+app.register_blueprint(routes.ex)
+app.register_blueprint(routes.muscles)
+app.register_blueprint(routes.pr)
+app.register_blueprint(routes.re)
 
 if __name__ == "__main__":
     create_all()
