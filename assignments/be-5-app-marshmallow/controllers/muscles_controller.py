@@ -19,11 +19,11 @@ def add_muscle(req: Request):
 
         values[field] = field_data
 
-    new_ex_type = MuscleSchema(
+    new_muscle_type = MuscleSchema(
         values['muscle_group'],
         values['image_url'])
 
-    db.session.add(new_ex_type)
+    db.session.add(new_muscle_type)
     db.session.commit()
 
     return jsonify("Muscle Added"), 200
