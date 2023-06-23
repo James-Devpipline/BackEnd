@@ -4,6 +4,7 @@ from controllers import exercises_controller as controller
 
 ex = Blueprint("ex", __name__)
 
+
 @ex.route('/exercises/', methods=["POST"])
 def add_rec() -> Response:
     return controller.add_rec(request)
