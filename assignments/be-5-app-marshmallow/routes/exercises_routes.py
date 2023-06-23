@@ -6,7 +6,7 @@ ex = Blueprint("ex", __name__)
 
 
 @ex.route('/exercises/', methods=["POST"])
-def add_rec() -> Response:
+def add_exercise() -> Response:
     return controller.add_rec(request)
 
 

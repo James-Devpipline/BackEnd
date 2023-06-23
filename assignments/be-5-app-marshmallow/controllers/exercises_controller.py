@@ -4,7 +4,7 @@ from db import db
 from models.exercises import Exercises, ex_schema, exs_schema
 from reflection import populate_object
 
-def add_rec(req: Request):
+def add_exercise(req: Request):
     req_data = request.form if request.form else request.json
 
     fields = ['name', 'muscles_targeted', 'exercise_types', 'image_url', 'description']
