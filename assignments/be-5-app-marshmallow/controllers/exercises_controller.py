@@ -1,11 +1,10 @@
-from flask import request, jsonify
+from flask import request, Request, jsonify
 
 from db import db
 from models.exercises import Exercises, ex_schema, exs_schema
 from reflection import populate_object
 
-@app.route('/exercises/', methods=["POST"])
-def add_rec():
+def add_rec(req: Request):
     req_data = request.form if request.form else request.json
 
     fields = ['name', 'muscles_targeted', 'exercise_types', 'image_url', 'description']
@@ -33,8 +32,7 @@ def add_rec():
     return jsonify('Exercise Recorded'), 200
 
 
-@app.route('/exercises', methods=['GET'])
-def get_all_exercises():
+def get_all_exercises(req: Request):
     exercises = db.session.query(Exercises).filter(Exercises).all()
 
     if not exercises:
@@ -43,8 +41,7 @@ def get_all_exercises():
         return jsonify(exs_schema.dump(exercises)), 200
     
 
-@app.route('/exercises/<id>', methods=['GET'])
-def get_exercise(id):
+def get_exercise(req: Request, id):
     exercise = db.session.query(Exercises).filter(Exercises.recorded_id == id).first()
 
     if not exercise:
@@ -53,8 +50,7 @@ def get_exercise(id):
         return jsonify(ex_schema.dump(exercise)), 200
     
 
-@app.route('/exercises/<id>', methods=['PUT'])
-def update_exercise(id):
+def update_exercise(req: Request, id):
     post_data = request.json
     if not post_data:
         post_data = request.form
@@ -67,8 +63,7 @@ def update_exercise(id):
     return jsonify(ex_schema.dump(exercise)), 200
 
 
-@app.route('/exercises/<id>', methods=['DELETE'])
-def delete_exercise(id):
+def delete_exercise(req: Request, id):
     exercise = db.session.query(Exercises).filter(Exercises.exercise_id == id).first()
 
     if exercise:

@@ -1,11 +1,10 @@
-from flask import request, jsonify
+from flask import request, Request, jsonify
 
 from db import db
 from models.recorded_exercises import RecordedExercises, rec_schema, recs_schema
 from reflection import populate_object
 
-@app.route('/recorded-exercises/', methods=["POST"])
-def add_rec():
+def add_rec(req: Request):
     req_data = request.form if request.form else request.json
 
     fields = ['exercise_id', 'date', 'sets', 'reps', 'distance', 'time', 'notes', 'is_personal_record', 'video_url']
@@ -37,8 +36,7 @@ def add_rec():
     return jsonify('Exercise Recorded'), 200
 
 
-@app.route('/recorded-exercises', methods=['GET'])
-def get_all_recorded_exercises():
+def get_all_recorded_exercises(req: Request):
     recorded_exercises = db.session.query(RecordedExercises).filter(RecordedExercises).all()
 
     if not recorded_exercises:
@@ -47,8 +45,7 @@ def get_all_recorded_exercises():
         return jsonify(recs_schema.dump(recorded_exercises)), 200
     
 
-@app.route('/recorded-exercises/<id>', methods=['GET'])
-def get_recorded_exercise(id):
+def get_recorded_exercise(req: Request, id):
     recorded_exercise = db.session.query(RecordedExercises).filter(RecordedExercises.recorded_id == id).first()
 
     if not recorded_exercise:
@@ -57,8 +54,7 @@ def get_recorded_exercise(id):
         return jsonify(rec_schema.dump(recorded_exercise)), 200
     
 
-@app.route('/recorded-exercises/<id>', methods=['PUT'])
-def update_recorded_exercise(id):
+def update_recorded_exercise(req: Request, id):
     post_data = request.json
     if not post_data:
         post_data = request.form
@@ -71,8 +67,7 @@ def update_recorded_exercise(id):
     return jsonify(rec_schema.dump(recorded_exercise)), 200
 
 
-@app.route('/recorded-exercises/<id>', methods=['DELETE'])
-def delete_recorded_exercise(id):
+def delete_recorded_exercise(req: Request, id):
     recorded_exercise = db.session.query(RecordedExercises).filter(RecordedExercises.recorded_id == id).first()
 
     if recorded_exercise:
