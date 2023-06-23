@@ -48,7 +48,7 @@ def get_all_recorded_exercises():
     
 
 @app.route('/recorded-exercises/<id>', methods=['GET'])
-def get_all_recorded_exercises(id):
+def get_recorded_exercise(id):
     recorded_exercise = db.session.query(RecordedExercises).filter(RecordedExercises.recorded_id == id).first()
 
     if not recorded_exercise:

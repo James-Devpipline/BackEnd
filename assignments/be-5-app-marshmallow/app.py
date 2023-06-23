@@ -3,7 +3,7 @@ from db import *
 import os
 from flask_marshmallow import Marshmallow
 
-from models.exercises import exercises
+from models.exercises import Exercises
 from models.exercise_types import ExerciseTypes
 from models.muscles import muscles
 from models.personal_records import PersonalRecords
