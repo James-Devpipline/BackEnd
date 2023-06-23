@@ -6,7 +6,7 @@ from exercise_types import ExTypeSchema
 
 from db import db
 
-class exercises(db.Model):
+class Exercises(db.Model):
     __tablename__ = "Exercises"
 
     exercise_id = db.Column(UUID (as_uuid=True), primary_key = True, default = uuid.uuid4)
