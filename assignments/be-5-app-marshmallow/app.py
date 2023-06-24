@@ -5,7 +5,7 @@ from flask_marshmallow import Marshmallow
 
 from models.exercises import Exercises
 from models.exercise_types import ExerciseTypes
-from models.muscles import muscles
+from models.muscles import Muscles
 from models.personal_records import PersonalRecords
 from models.recorded_exercises import RecordedExercises
 import routes
@@ -37,7 +37,7 @@ app.register_blueprint(routes.ex_type)
 app.register_blueprint(routes.ex)
 app.register_blueprint(routes.muscles)
 app.register_blueprint(routes.pr)
-app.register_blueprint(routes.re)
+app.register_blueprint(routes.rec)
 
 if __name__ == "__main__":
     create_all()

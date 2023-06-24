@@ -1,8 +1,8 @@
 import marshmallow as ma
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
-from muscles import MuscleSchema
-from exercise_types import ExTypeSchema
+from .muscles import MuscleSchema
+from .exercise_types import ExTypeSchema
 
 from db import db
 

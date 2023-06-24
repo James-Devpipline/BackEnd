@@ -2,10 +2,9 @@ import marshmallow as ma
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
 
-
 from db import db
 
-class muscles(db.Model):
+class Muscles(db.Model):
     __tablename__ = "Muscles"
 
     muscle_id = db.Column(UUID (as_uuid=True), primary_key = True, default = uuid.uuid4)

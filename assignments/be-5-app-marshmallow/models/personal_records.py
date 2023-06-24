@@ -1,8 +1,8 @@
 import marshmallow as ma
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
-from exercises import ExSchema
-from recorded_exercises import RecSchema
+from .exercises import ExSchema
+from .recorded_exercises import RecSchema
 
 from db import db
 
