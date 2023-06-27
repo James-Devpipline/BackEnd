@@ -6,6 +6,20 @@ from .exercises import ExSchema
 
 from db import db
 
+
+'''
+Todo:
+change field in table "distance" to an object that contains weight and distance, change name to be measurement
+
+and another field for load which holds the same key names but the values hold different data 
+
+measurement { weight: kg/lbs, distance: miles/kilometers/feet/meters/etc}
+
+load (weight: 100, distance: 0)
+    ...> maybe make the weight a string, so if its body weight on a track it would be equal to "body-weight-only" then, if its a sled on a track with 45 pounts it could be "45" ??"
+'''
+
+
 class RecordedExercises(db.Model):
     __tablename__ = "RecordedExercises"
 
@@ -35,8 +49,9 @@ class RecSchema(ma.Schema):
     class Meta:
         fields = ["recorded_id", "exercise_id", "date", "sets", "reps", "distance", "time", "notes", "is_personal_record", "video_url"]
 
-    exercise_id = ma.fields.Nested(ExSchema())
+        exercise_id = ma.fields.Nested(ExSchema())
 
 
 rec_schema = RecSchema()
 recs_schema = RecSchema(many = True)
+

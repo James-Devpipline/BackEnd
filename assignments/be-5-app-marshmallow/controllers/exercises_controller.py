@@ -4,6 +4,7 @@ from db import db
 from models.exercises import Exercises, ex_schema, exs_schema
 from reflection import populate_object
 
+
 def add_exercise(req: Request):
     req_data = request.form if request.form else request.json
 
@@ -33,34 +34,36 @@ def add_exercise(req: Request):
 
 
 def get_all_exercises(req: Request):
-    exercises = db.session.query(Exercises).filter(Exercises).all()
+    exercises = db.session.query(Exercises).all()
 
     if not exercises:
         return jsonify('No exercises have been recorded'), 404
     else:
         return jsonify(exs_schema.dump(exercises)), 200
-    
+
 
 def get_exercise(req: Request, id):
-    exercise = db.session.query(Exercises).filter(Exercises.recorded_id == id).first()
+    exercise = db.session.query(Exercises).filter(Exercises.exercise_id == id).first()
 
     if not exercise:
         return jsonify('That exercise does not exist'), 404
     else:
         return jsonify(ex_schema.dump(exercise)), 200
-    
+
 
 def update_exercise(req: Request, id):
     post_data = request.json
     if not post_data:
         post_data = request.form
-    
+
     exercise = db.session.query(Exercises).filter(Exercises.exercise_id == id).first()
 
-    populate_object(exercise, post_data)
-    db.session.commit()
-
-    return jsonify(ex_schema.dump(exercise)), 200
+    if not exercise:
+        return jsonify("Exercise not found")
+    else:
+        populate_object(exercise, post_data)
+        db.session.commit()
+        return jsonify(ex_schema.dump(exercise)), 200
 
 
 def delete_exercise(req: Request, id):
