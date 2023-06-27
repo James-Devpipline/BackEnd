@@ -25,7 +25,7 @@ class Exercises(db.Model):
 
 class ExSchema(ma.Schema):
     class Meta:
-        fields = ["name", "muscles_targeted", "exercise_types", "image_url", "description"]
+        fields = ["exercise_id", "name", "muscles_targeted", "exercise_types", "image_url", "description"]
 
     muscles_targeted = ma.fields.Nested(MuscleSchema())
 

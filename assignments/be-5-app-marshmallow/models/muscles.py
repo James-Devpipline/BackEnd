@@ -17,7 +17,7 @@ class Muscles(db.Model):
     
 class MuscleSchema(ma.Schema):
     class Meta:
-        fields = ["muscle_group", "image_url"]
+        fields = ["muscle_id", "muscle_group", "image_url"]
 
 muscle_schema = MuscleSchema()
 muscles_schema = MuscleSchema(many=True)

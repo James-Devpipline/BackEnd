@@ -1,7 +1,7 @@
 from flask import request, Request, jsonify
 
 from db import db
-from models.muscles import MuscleSchema, muscle_schema, muscles_schema
+from models.muscles import Muscles, muscle_schema, muscles_schema
 from reflection import populate_object
 
 def add_muscle(req: Request):
@@ -11,7 +11,7 @@ def add_muscle(req: Request):
     req_fields = ['muscle_group']
 
     values = {}
-
+        
     for field in fields:
         field_data = req_data.get(field)
         if field_data in req_fields and not field_data:
@@ -19,7 +19,7 @@ def add_muscle(req: Request):
 
         values[field] = field_data
 
-    new_muscle_type = MuscleSchema(
+    new_muscle_type = Muscles(
         values['muscle_group'],
         values['image_url'])
 
@@ -30,19 +30,19 @@ def add_muscle(req: Request):
 
 
 def get_all_muscles(req: Request):
-    muscles = db.session.query(MuscleSchema).filter(MuscleSchema).all()
+    muscles = db.session.query(Muscles).all()
 
     if not muscles:
         return jsonify('No muscles have been recorded'), 404
     else:
         return jsonify(muscles_schema.dump(muscles)), 200
-    
 
+        
 def get_muscle(req: Request, id):
-    muscle = db.session.query(MuscleSchema).filter(MuscleSchema.muscle_id == id).first()
+    muscle = db.session.query(Muscles).filter(Muscles.muscle_id == id).first()
 
     if not muscle:
-        return jsonify('That muscle does not exist'), 404
+        return jsonify(message="That muscle does not exist"),404
     else:
         return jsonify(muscle_schema.dump(muscle)), 200
     
@@ -52,20 +52,22 @@ def update_muscle(req: Request, id):
     if not post_data:
         post_data = request.form
     
-    muscle = db.session.query(MuscleSchema).filter(MuscleSchema.muscle_id == id).first()
+    muscle = db.session.query(Muscles).filter(Muscles.muscle_id == id).first()
 
-    populate_object(muscle, post_data)
-    db.session.commit()
-
-    return jsonify(muscle_schema.dump(muscle)), 200
+    if not muscle:
+        return jsonify(message="That muscle does not exist"),404
+    else:
+        populate_object(muscle, post_data)
+        db.session.commit()
+        return jsonify(muscle_schema.dump(muscle)), 200
 
 
 def delete_muscle(req: Request, id):
-    muscle = db.session.query(MuscleSchema).filter(MuscleSchema.muscle_id == id).first()
+    muscle = db.session.query(Muscles).filter(Muscles.muscle_id == id).first()
 
     if muscle:
         db.session.delete(muscle)
         db.session.commit()
-        return jsonify(message="Muscle has been deleted")
+        return jsonify(message="Muscle has been deleted"),200
     else:
         return jsonify(message="Muscle not found, unable to delete"), 404

@@ -19,7 +19,7 @@ class ExerciseTypes(db.Model):
 
 class ExTypeSchema(ma.Schema):
     class Meta:
-        fields = ["name", "description", "image_url"]
+        fields = ["type_id", "name", "description", "image_url"]
 
 ex_type_schema = ExTypeSchema()
 ex_types_schema = ExTypeSchema(many = True)
