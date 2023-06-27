@@ -1,0 +1,690 @@
+{
+	"info": {
+		"_postman_id": "b6301cf6-3609-49aa-b315-588d7777e4ba",
+		"name": "Ships at Sea",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25276930"
+	},
+	"item": [
+		{
+			"name": "Muscles",
+			"item": [
+				{
+					"name": "Add Muscle",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"muscle_group\": \"Lats\",\n    \"image_url\": \"image_placeholder\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.5:8086/muscle",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"muscle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Muscles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/muscles",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"muscles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Muscle by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/muscle/adea50e5-09d7-4058-b9cd-a40b3df41e50",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"muscle",
+								"adea50e5-09d7-4058-b9cd-a40b3df41e50"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Muscle",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"image_url\": \"image_placeholder\",\n    \"muscle_group\": \"Front Delts\",\n    \"muscle_id\": \"adea50e5-09d7-4058-b9cd-a40b3df41e50\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.5:8086/muscle/adea50e5-09d7-4058-b9cd-a40b3df41e50",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"muscle",
+								"adea50e5-09d7-4058-b9cd-a40b3df41e50"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Muscle",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/muscle/adea50e5-09d7-4058-b9cd-a40b3df41e50",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"muscle",
+								"adea50e5-09d7-4058-b9cd-a40b3df41e50"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Exercise Types",
+			"item": [
+				{
+					"name": "Add Exercise Type",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"body weight\",\n    \"description\": \"lift yourself\",\n    \"image_url\": \"place holder image\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.5:8086/exercise-type",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"exercise-type"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Exercise Types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/exercise-types",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"exercise-types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Exercise Type by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/exercise-type/f82ada10-7aab-4103-96ae-8bf8931280c9",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"exercise-type",
+								"f82ada10-7aab-4103-96ae-8bf8931280c9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Exercise Type",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"calisthenics\",\n    \"description\": \"Bodywieght based exercises. Lift yourself up\",\n    \"image_url\": \"place holder image\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.5:8086/exercise-type/8f8c4255-923e-4b28-90ba-4f4e2a4043d5",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"exercise-type",
+								"8f8c4255-923e-4b28-90ba-4f4e2a4043d5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Exercise Type",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/exercise-type/f82ada10-7aab-4103-96ae-8bf8931280c9",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"exercise-type",
+								"f82ada10-7aab-4103-96ae-8bf8931280c9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Exercises",
+			"item": [
+				{
+					"name": "Add Exercise",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Pull Ups\",\n    \"muscles_targeted\": \"5ae4da5b-ea86-4827-adc5-70ef491b60d0\",\n    \"exercise_types\": \"8f8c4255-923e-4b28-90ba-4f4e2a4043d5\",\n    \"image_url\": \"place holder image\",\n    \"description\": \"place holder information\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.5:8086/exercise",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"exercise"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Exercises",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/exercises",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"exercises"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Exercise by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/exercise/a27eccfe-f745-4d8f-a1a5-59890ba5eb55",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"exercise",
+								"a27eccfe-f745-4d8f-a1a5-59890ba5eb55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Exercise",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Pull Ups\",\n    \"muscles_targeted\": \"5ae4da5b-ea86-4827-adc5-70ef491b60d0\",\n    \"exercise_types\": \"8f8c4255-923e-4b28-90ba-4f4e2a4043d5\",\n    \"image_url\": \"place holder image\",\n    \"description\": \"place holder information\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.5:8086/exercise/a27eccfe-f745-4d8f-a1a5-59890ba5eb55",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"exercise",
+								"a27eccfe-f745-4d8f-a1a5-59890ba5eb55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Exercise",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/exercise/a27eccfe-f745-4d8f-a1a5-59890ba5eb55",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"exercise",
+								"a27eccfe-f745-4d8f-a1a5-59890ba5eb55"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recorded Exercises",
+			"item": [
+				{
+					"name": "Add Recorded Exercise",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"exercise_id\":\"183af10e-e36c-434a-a528-b15be02311f8\",\n    \"date\": \"01/05/2023\",\n    \"sets\": \"3\",\n    \"reps\": \"10\",\n    \"distance\": \"\",\n    \"time\":\"\",\n    \"notes\":\"Slow eccentric motion\",\n    \"is_personal_record\":true,\n    \"video_url\": \"place holder\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.5:8086/recorded-exercise",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"recorded-exercise"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Recorded Exercises",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/recorded-exercises",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"recorded-exercises"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Recorded Exercise by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/recorded-exercise/85375306-7ca6-46a9-9a0a-2d5c0164ae17",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"recorded-exercise",
+								"85375306-7ca6-46a9-9a0a-2d5c0164ae17"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Recorded Exercise",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"exercise_id\":\"183af10e-e36c-434a-a528-b15be02311f8\",\n    \"date\": \"01/05/2023\",\n    \"sets\": \"3\",\n    \"reps\": \"11\",\n    \"distance\": \"\",\n    \"time\":\"\",\n    \"notes\":\"Slow eccentric motion\",\n    \"is_personal_record\":true,\n    \"video_url\": \"place holder\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.5:8086/recorded-exercise/85375306-7ca6-46a9-9a0a-2d5c0164ae17",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"recorded-exercise",
+								"85375306-7ca6-46a9-9a0a-2d5c0164ae17"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Recorded Exercise",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/recorded-exercise/85375306-7ca6-46a9-9a0a-2d5c0164ae17",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"recorded-exercise",
+								"85375306-7ca6-46a9-9a0a-2d5c0164ae17"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Personal Records",
+			"item": [
+				{
+					"name": "Add Personal Record",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"exercise_id\": \"183af10e-e36c-434a-a528-b15be02311f8\",\n    \"recorded_exercise\": \"537c79d3-e4db-4b01-b95d-466babb28cb9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.5:8086/personal-record",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"personal-record"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Personal Records",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/personal-records",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"personal-records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Personal Record by IDs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/personal-record/183af10e-e36c-434a-a528-b15be02311f8",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"personal-record",
+								"183af10e-e36c-434a-a528-b15be02311f8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Personal Record",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"exercise_id\": \"7cd7a00e-b877-4004-8349-fe3c4565370f\",\n    \"recorded_exercise\": \"537c79d3-e4db-4b01-b95d-466babb28cb9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.5:8086/personal-record/183af10e-e36c-434a-a528-b15be02311f8",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"personal-record",
+								"183af10e-e36c-434a-a528-b15be02311f8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Personal Record",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.5:8086/personal-record/7cd7a00e-b877-4004-8349-fe3c4565370f",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"5"
+							],
+							"port": "8086",
+							"path": [
+								"personal-record",
+								"7cd7a00e-b877-4004-8349-fe3c4565370f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
