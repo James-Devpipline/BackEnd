@@ -5,9 +5,9 @@ from controllers import exercises_controller as controller
 ex = Blueprint("ex", __name__)
 
 
-@ex.route('/exercises/', methods=["POST"])
+@ex.route('/exercise', methods=["POST"])
 def add_exercise() -> Response:
-    return controller.add_rec(request)
+    return controller.add_exercise(request)
 
 
 @ex.route('/exercises', methods=['GET'])
@@ -15,17 +15,17 @@ def get_all_exercises() -> Response:
     return controller.get_all_exercises(request)
     
     
-@ex.route('/exercises/<id>', methods=['GET'])
+@ex.route('/exercise/<id>', methods=['GET'])
 def get_exercise(id) -> Response:
     return controller.get_exercise(request, id)
 
 
-@ex.route('/exercises/<id>', methods=['PUT'])
+@ex.route('/exercise/<id>', methods=['PUT'])
 def update_exercise(id) -> Response:
-    return controller.get_exercise(request, id)
+    return controller.update_exercise(request, id)
     
 
-@ex.route('/exercises/<id>', methods=['DELETE'])
+@ex.route('/exercise/<id>', methods=['DELETE'])
 def delete_exercise(id) -> Response:
     return controller.delete_exercise(request, id)
     

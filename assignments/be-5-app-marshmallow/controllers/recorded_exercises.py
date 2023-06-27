@@ -4,7 +4,7 @@ from db import db
 from models.recorded_exercises import RecordedExercises, rec_schema, recs_schema
 from reflection import populate_object
 
-def add_rec(req: Request):
+def add_recorded_exercise(req: Request):
     req_data = request.form if request.form else request.json
 
     fields = ['exercise_id', 'date', 'sets', 'reps', 'distance', 'time', 'notes', 'is_personal_record', 'video_url']
