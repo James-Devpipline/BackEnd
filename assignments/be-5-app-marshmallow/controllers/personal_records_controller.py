@@ -2,7 +2,7 @@ from flask import request, Request, jsonify
 
 from db import db
 from models.personal_records import PersonalRecords, pr_schema, prs_schema
-from reflection import populate_object
+from util.reflection import populate_object
 
 
 def add_personal_record(req: Request):

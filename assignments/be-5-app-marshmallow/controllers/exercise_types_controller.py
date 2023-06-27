@@ -2,7 +2,7 @@ from flask import request, Request, jsonify
 
 from db import db
 from models.exercise_types import ExerciseTypes, ex_type_schema, ex_types_schema
-from reflection import populate_object
+from util.reflection import populate_object
 
 
 def add_exercise_type(req: Request):

@@ -2,7 +2,7 @@ from flask import request, Request, jsonify
 
 from db import db
 from models.muscles import Muscles, muscle_schema, muscles_schema
-from reflection import populate_object
+from util.reflection import populate_object
 
 def add_muscle(req: Request):
     req_data = request.form if request.form else request.json

@@ -2,7 +2,7 @@ from flask import request, Request, jsonify
 
 from db import db
 from models.recorded_exercises import RecordedExercises, rec_schema, recs_schema
-from reflection import populate_object
+from util.reflection import populate_object
 
 
 def add_recorded_exercise(req: Request):
