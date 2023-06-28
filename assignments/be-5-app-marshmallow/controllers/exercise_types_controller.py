@@ -11,21 +11,18 @@ def add_exercise_type(req: Request):
     fields = ['name', 'description', 'image_url']
     req_fields = ['name']
 
-    values = {}
-
     for field in fields:
         field_data = req_data.get(field)
         if field_data in req_fields and not field_data:
             return jsonify(f'{field} is required'), 400
 
-        values[field] = field_data
+    #####
+    new_exercise_type = ExerciseTypes.new_exercise_type()
 
-    new_ex_type = ExerciseTypes(
-        values['name'],
-        values['description'],
-        values['image_url'])
+    populate_object(new_exercise_type, req_data)
 
-    db.session.add(new_ex_type)
+    db.session.add(new_exercise_type)
+    #####
     db.session.commit()
 
     return jsonify("Exercise Type Added"), 200
