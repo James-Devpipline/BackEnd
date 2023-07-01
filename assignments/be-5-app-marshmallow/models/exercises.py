@@ -24,6 +24,9 @@ class Exercises(db.Model):
         self.image_url = image_url
         self.description = description
 
+    def new_exercise():
+        return Exercises("", 0, 0, "", "")
+
 
 class ExSchema(ma.Schema):
     class Meta:
