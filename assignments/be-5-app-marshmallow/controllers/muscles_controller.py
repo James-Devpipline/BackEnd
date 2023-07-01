@@ -16,11 +16,11 @@ def add_muscle(req: Request):
         if field_data in req_fields and not field_data:
             return jsonify(f'{field} is required'), 400
 
-    new_muscle_type = Muscles.new_muscle()
+    new_muscle = Muscles.new_muscle()
 
-    populate_object(new_muscle_type, req_data)
+    populate_object(new_muscle, req_data)
 
-    db.session.add(new_muscle_type)
+    db.session.add(new_muscle)
     db.session.commit()
 
     return jsonify("Muscle Added"), 200

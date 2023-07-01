@@ -16,11 +16,11 @@ def add_exercise(req: Request):
         if field_data in req_fields and not field_data:
             return jsonify(f'{field} is required'), 400
 
-    new_exercise = Exercises.new_exercise()
+    new_ex = Exercises.new_exercise()
 
-    populate_object(new_exercise, req_data)
+    populate_object(new_ex, req_data)
 
-    db.session.add(new_exercise)
+    db.session.add(new_ex)
     db.session.commit()
 
     return jsonify('Exercise Recorded'), 200

@@ -16,11 +16,11 @@ def add_personal_record(req: Request):
         if field_data in req_fields and not field_data:
             return jsonify(f'{field} is required'), 400
 
-    new_personal_record = PersonalRecords.new_personal_record()
+    new_pr = PersonalRecords.new_personal_record()
 
-    populate_object(new_personal_record, req_data)
+    populate_object(new_pr, req_data)
 
-    db.session.add(new_personal_record)
+    db.session.add(new_pr)
     db.session.commit()
 
     return jsonify("Personal Record Added"), 200
