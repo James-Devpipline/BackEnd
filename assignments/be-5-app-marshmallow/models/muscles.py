@@ -16,7 +16,7 @@ class Muscles(db.Model):
         self.image_url = image_url
 
     def new_muscle():
-        return Muscles(0, "", "")
+        return Muscles("", "")
     
 class MuscleSchema(ma.Schema):
     class Meta:
