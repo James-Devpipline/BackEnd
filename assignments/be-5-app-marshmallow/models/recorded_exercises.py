@@ -44,6 +44,9 @@ class RecordedExercises(db.Model):
         self.notes = notes
         self.is_personal_record = is_personal_record
         self.video_url = video_url
+    
+    def new_recorded_exercise():
+        return RecordedExercises(0, "", "", "", "", "", "", False, "")
 
 class RecSchema(ma.Schema):
     class Meta:

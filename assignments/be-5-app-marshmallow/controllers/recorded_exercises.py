@@ -11,27 +11,16 @@ def add_recorded_exercise(req: Request):
     fields = ['exercise_id', 'date', 'sets', 'reps', 'distance', 'time', 'notes', 'is_personal_record', 'video_url']
     req_fields = ['exercise_id']
 
-    values = {}
-
     for field in fields:
         field_data = req_data.get(field)
         if field_data in req_fields and not field_data:
             return jsonify(f'{field} is required'), 400
 
-        values[field] = field_data
+    new_recorded_exercise = RecordedExercises.new_recorded_exercise()
 
-    new_rec = RecordedExercises(
-        values['exercise_id'],
-        values['date'],
-        values['sets'],
-        values['reps'],
-        values['distance'],
-        values['time'],
-        values['notes'],
-        values['is_personal_record'],
-        values['video_url'])
+    populate_object(new_recorded_exercise, req_data)
 
-    db.session.add(new_rec)
+    db.session.add(new_recorded_exercise)
     db.session.commit()
 
     return jsonify('Exercise Recorded'), 200
