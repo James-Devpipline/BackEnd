@@ -17,6 +17,8 @@ class PersonalRecords(db.Model):
         self.exercise_id = exercise_id
         self.recorded_exercise = recorded_exercise
 
+    def new_personal_record():
+        return PersonalRecords(0, 0)
 
 class PRSchema(ma.Schema):
     class Meta:

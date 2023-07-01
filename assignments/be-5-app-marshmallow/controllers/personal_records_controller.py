@@ -11,20 +11,16 @@ def add_personal_record(req: Request):
     fields = ['exercise_id', 'recorded_exercise']
     req_fields = ['exercise_id', 'recorded_exercise']
 
-    values = {}
-
     for field in fields:
         field_data = req_data.get(field)
         if field_data in req_fields and not field_data:
             return jsonify(f'{field} is required'), 400
 
-        values[field] = field_data
+    new_personal_record = PersonalRecords.new_personal_record()
 
-    new_pr_type = PersonalRecords(
-        values['exercise_id'],
-        values['recorded_exercise'])
+    populate_object(new_personal_record, req_data)
 
-    db.session.add(new_pr_type)
+    db.session.add(new_personal_record)
     db.session.commit()
 
     return jsonify("Personal Record Added"), 200
