@@ -24,6 +24,9 @@ Pass by Value vs Pass by Reference
 '''
 
 
+from decorators import my_decorator
+
+
 def my_func(lst):
     return lst.sort()
 
@@ -42,3 +45,11 @@ print(my_list)  # returns 1, 4, 5, 2, 8, 10, 3, -43]
 print(my_list)  # returns 1, 4, 5, 2, 8, 10, 3, -43]
 my_func(my_list)
 print(my_list)  # returns [-43, 1, 2, 3, 4, 5, 8, 10]
+
+
+@my_decorator
+def say_hello(message):
+    return message
+
+
+print(say_hello("hello"))
