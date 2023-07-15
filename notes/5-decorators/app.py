@@ -73,6 +73,7 @@ Pass by Value vs Pass by Reference
 ##########################
 
 from decorators import my_decorator
+from decorators import my_decorator2
 
 
 @my_decorator
@@ -80,5 +81,13 @@ def say_hello(message, message_kwarg):
     return f'{message}\n{message_kwarg}'
 
 
+@my_decorator2
+def say_hello2(message):
+    return message
+
+
 print(say_hello)  # this returns its place in memory I believe
 print(say_hello("hello", message_kwarg="hello from kwargs"))
+
+
+print(say_hello2([1, 2, 3, 4, '5']))

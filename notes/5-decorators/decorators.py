@@ -24,3 +24,18 @@ def my_decorator(func):
 
 
 # function_name(1, 2, 3, x=5, b=22)  # manually specified perams are the keyword arguments
+
+
+def my_decorator2(func):
+    @functools.wraps(func)
+    def decorator_wrapper(*args, **kwargs):
+        print(kwargs)
+        print(args)
+
+        my_list = args[0]
+        print(my_list is args[0])
+        my_list[:] = [int(i) for i in my_list]  # Updates the existing list in place
+
+        return func(*args, **kwargs)
+
+    return decorator_wrapper
