@@ -3,7 +3,7 @@ from flask import Response
 from datetime import datetime
 
 from db import db
-from models.auth_tokens import AuthTokens
+from models.authorizations import AuthTokens
 
 
 def validate_token(args):
