@@ -5,9 +5,14 @@ from flask_marshmallow import Marshmallow
 
 from models.users import Users, user_schema, users_schema
 from models.organizations import Organizations, organizations_schema, organization_schema
+from models.authorizations import Auths, auth_schema, auths_schema
 from util.reflection import populate_object
 from routes.org_routes import org
 from routes.user_routes import user
+from routes.auth_routes import auth
+from lib.super_admin import create_super_admin
+from lib.evil_inc import create_default_org
+
 
 database_pre = os.environ.get("DATABASE_PRE")
 database_addr = os.environ.get("DATABASE_ADDR")
@@ -31,6 +36,8 @@ def create_all():
     with app.app_context():
         print("Creating Tables")
         db.create_all()
+        create_default_org()
+        create_super_admin()
         print("All Done")
 
 

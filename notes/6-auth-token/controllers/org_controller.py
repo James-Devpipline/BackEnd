@@ -1,6 +1,7 @@
 from flask import request, jsonify
 
 from models.organizations import Organizations, organization_schema, organizations_schema
+from lib.authenticate import auth
 from db import db
 from util.reflection import populate_object
 

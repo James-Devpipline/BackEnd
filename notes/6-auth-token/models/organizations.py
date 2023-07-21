@@ -11,25 +11,27 @@ class Organizations(db.Model):
     name = db.Column(db.String(), nullable=False, unique=True)
     city = db.Column(db.String())
     state = db.Column(db.String())
+    address = db.Column(db.String())
     phone = db.Column(db.String())
     active = db.Column(db.Boolean(), default=True)
 
     users = db.relationship("Users", backref="organization", lazy=True)
 
-    def __init__(self, name, city, state, phone, active):
+    def __init__(self, name, city, state, address, phone, active):
         self.name = name
         self.phone = phone
         self.city = city
         self.state = state
+        self.address = address
         self.active = active
 
     def new_org():
-        return Organizations("", "", "", "", True)
+        return Organizations("", "", "", "", "", True)
 
 
 class OrganizationsSchema(ma.Schema):
     class Meta:
-        fields = ['org_id', 'name', 'phone', 'city', 'state', 'active']
+        fields = ['org_id', 'name', 'phone', 'city', 'state', 'address', 'active']
 
 
 organization_schema = OrganizationsSchema()

@@ -3,7 +3,8 @@ from flask import Response
 from datetime import datetime
 
 from db import db
-from models.authorizations import AuthTokens
+from models.authorizations import Auths
+from models.users import Users
 
 
 def validate_token(args):
@@ -12,7 +13,7 @@ def validate_token(args):
     if not auth_token:
         return False
 
-    existing_token = db.session.query(AuthTokens).filter(AuthTokens.auth_token == auth_token).first()
+    existing_token = db.session.query(Auths).filter(Auths.auth_token == auth_token).first()
 
     if existing_token:
         if existing_token.expiration > datetime.now():
@@ -23,6 +24,10 @@ def validate_token(args):
 
 def fail_response():
     return Response("Authentication Required", 401)
+
+
+def fail_perm_response():
+    return Response("Vibe check: Failed", 403)
 
 
 def auth_with_return(func):
@@ -42,9 +47,15 @@ def auth(func):
     @functools.wraps(func)
     def wrapper_auth_return(*args, **kwargs):
         auth_info = validate_token(args[0])
+        user_object = db.session.query(Users).filter(Users.user_id == auth_info.user_id).first()
+
+        if user_object["role"] == "admin":
+            kwargs["auth_role"] = "admin"
+        else:
+            fail_response()
 
         if auth_info:
             return func(*args, **kwargs)
         else:
-            return fail_response()
+            return fail_perm_response
     return wrapper_auth_return

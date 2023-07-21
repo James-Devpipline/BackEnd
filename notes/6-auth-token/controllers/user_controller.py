@@ -3,10 +3,12 @@ from flask import request, jsonify
 from db import db
 from models.users import Users, user_schema, users_schema
 from util.reflection import populate_object
+from lib.authenticate import auth
 
 # CREATE
 
 
+@auth
 def add_user():
     req_data = request.form if request.form else request.json
 
@@ -24,6 +26,7 @@ def add_user():
 
 
 # READ
+@auth
 def get_all_active_users():
     users = db.session.query(Users).filter(Users.active == True).all()
 
