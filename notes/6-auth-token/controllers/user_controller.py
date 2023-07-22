@@ -1,4 +1,5 @@
 from flask import request, jsonify
+from flask_bcrypt import generate_password_hash
 
 from db import db
 from models.users import Users, user_schema, users_schema
@@ -9,7 +10,7 @@ from lib.authenticate import auth
 
 
 @auth
-def add_user():
+def add_user(req):
     req_data = request.form if request.form else request.json
 
     if not req_data:
@@ -19,6 +20,8 @@ def add_user():
 
     populate_object(new_user, req_data)
 
+    new_user.password = generate_password_hash(new_user.password).decode("utf8")
+
     db.session.add(new_user)
     db.session.commit()
 
@@ -27,7 +30,7 @@ def add_user():
 
 # READ
 @auth
-def get_all_active_users():
+def get_all_active_users(req):
     users = db.session.query(Users).filter(Users.active == True).all()
 
     if not users:

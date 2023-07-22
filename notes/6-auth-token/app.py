@@ -30,6 +30,7 @@ ma = Marshmallow(app)
 
 app.register_blueprint(org)
 app.register_blueprint(user)
+app.register_blueprint(auth)
 
 
 def create_all():

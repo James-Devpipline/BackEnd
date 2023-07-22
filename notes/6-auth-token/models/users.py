@@ -34,8 +34,8 @@ class Users(db.Model):
         self.org_id = org_id
         self.active = active
 
-    def new_user(org_id):
-        return Users(org_id, "", "", "", "", "", "", "", "", "", True)
+    def new_user():
+        return Users("", "", "", "", "", "", "", "", "", True)
 
 
 class UsersSchema(ma.Schema):

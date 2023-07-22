@@ -8,7 +8,7 @@ from models.users import Users
 
 
 def validate_token(args):
-    auth_token = args.headers['auth_token']
+    auth_token = args.headers['auth']
 
     if not auth_token:
         return False
@@ -49,9 +49,7 @@ def auth(func):
         auth_info = validate_token(args[0])
         user_object = db.session.query(Users).filter(Users.user_id == auth_info.user_id).first()
 
-        if user_object["role"] == "admin":
-            kwargs["auth_role"] = "admin"
-        else:
+        if not user_object.role == "admin":
             fail_response()
 
         if auth_info:
