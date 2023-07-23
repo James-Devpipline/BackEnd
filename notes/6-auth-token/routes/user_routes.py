@@ -17,9 +17,9 @@ def get_all_active_users():
 
 @user.route("/user/<id>", methods=["GET"])
 def get_user_by_id(id):
-    return user_controller.get_user_by_id(id)
+    return user_controller.get_user_by_id(request, id)
 
 
 @user.route('/user/<id>', methods=["PUT"])
 def update_user(id):
-    return user_controller.update_user(id)
+    return user_controller.update_user(request, id)

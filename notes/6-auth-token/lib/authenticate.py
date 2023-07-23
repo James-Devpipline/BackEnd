@@ -47,13 +47,17 @@ def auth(func):
     @functools.wraps(func)
     def wrapper_auth_return(*args, **kwargs):
         auth_info = validate_token(args[0])
+
+        if not auth_info:
+            return fail_response()
+
         user_object = db.session.query(Users).filter(Users.user_id == auth_info.user_id).first()
 
         if not user_object.role == "admin":
-            fail_response()
+            return fail_perm_response()
 
         if auth_info:
             return func(*args, **kwargs)
         else:
-            return fail_perm_response
+            return fail_perm_response()
     return wrapper_auth_return

@@ -35,7 +35,7 @@ class Users(db.Model):
         self.active = active
 
     def new_user():
-        return Users("", "", "", "", "", "", "", "", "", True)
+        return Users("", "", None, "", "", "", "", "", "", True)
 
 
 class UsersSchema(ma.Schema):

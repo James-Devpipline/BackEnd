@@ -39,18 +39,20 @@ def get_all_active_users(req):
         return jsonify(users_schema.dump(users)), 200
 
 
-def get_user_by_id(id):
+@auth
+def get_user_by_id(req, id):
     user = db.session.query(Users).filter(Users.user_id == id).first()
 
     if not user:
-        return jsonify("That user doesn't exit"), 404
+        return jsonify("That user doesn't exist"), 404
 
     else:
         return jsonify(user_schema.dump(user)), 200
 
 
 # UPDATE
-def update_user(id):
+@auth
+def update_user(req, id):
     req_data = request.form if request.form else request.json
     existing_user = db.session.query(Users).filter(Users.user_id == id).first()
 

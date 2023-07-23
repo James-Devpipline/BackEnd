@@ -7,8 +7,8 @@ from util.reflection import populate_object
 
 # CREATE
 
-
-def add_organization():
+@auth
+def add_organization(req):
     req_data = request.form if request.form else request.json
 
     if not req_data:
@@ -25,8 +25,8 @@ def add_organization():
 
 # READ
 
-
-def get_org_by_id(id):
+@auth
+def get_org_by_id(req, id):
     org_record = db.session.query(Organizations).filter(Organizations.org_id == id).first()
 
     if not org_record:
@@ -34,8 +34,8 @@ def get_org_by_id(id):
     else:
         return jsonify(organization_schema.dump(org_record)), 200
 
-
-def get_all_orgs():
+@auth
+def get_all_orgs(req):
     orgs = db.session.query(Organizations).all()
     if not orgs:
         return jsonify("There are no Orgs"), 404
