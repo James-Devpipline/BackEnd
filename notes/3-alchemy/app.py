@@ -18,7 +18,7 @@ database_name = os.environ.get("DATABASE_NAME")
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = f"{database_pre}{database_user}@{database_addr}:{database_port}/{database_name}"
+app.config["SQLALCHEMY_DATABASE_URI"] = f"{database_pre}{database_user}@{database_addr}:{database_port}/{database_name}" # this is giving sql alchemy the address for postgres to use
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://<username>@<ipaddress>:5432/<database>'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
