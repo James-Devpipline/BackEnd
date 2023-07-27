@@ -43,6 +43,6 @@ def create_all():
         print("All Done")
 
 
+create_all()
 if __name__ == "__main__":
-    create_all()
     app.run(port=8086, host="0.0.0.0", debug=True)
