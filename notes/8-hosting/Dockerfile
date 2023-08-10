@@ -18,7 +18,10 @@ ENV PATH="/home/worker/.local/bin:$PATH"
 
 RUN pip install pipenv
 RUN pipenv install
-RUN PIPENV INSTALL gunicorn
+RUN pipenv install gunicorn
+
+EXPOSE 8000
+# exposing the port
 
 RUN chmod +X ./entrypoint.sh
 # change mod, we want this to eXecutable

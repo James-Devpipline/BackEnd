@@ -1,0 +1,21 @@
+000 means nobody has permission to access folder as its the same as -> 000000000
+first 3 digits represents you
+second 3 represents the group you're in 
+third 3 is everyone else
+order of group of three is read, write, execute
+below is translating from num to binary, remember from left to write its 64,32,16,8,4,2,1
+HOWEVER below its doing it each position, so from left to right its 4,2,1
+700 -> 111000000 -> 4+2+1 = 7
+760 -> 111110000
+762 -> 111110010
+
+444 = (r-- r-- r--): owner/group/others are all only able to read the file. They cannot write to it or execute it. 
+644 = (rw- r-- r--): same as 444 except the owner can write to it. 
+755 = (rwx r-x r-x): owner can read, write and execute the file, members in the user group and others can read and execute the file but cannot write to it. 
+
+r = read, w = write and x = execute.
+
+--- chmod 400 oracle-private-key.key
+--- ssh -i
+at 21:58
+https://www.youtube.com/watch?v=mnZ36iblN2g&list=PL_tfhIYJ6gEIPkifrKYD0JPFdQwOAqOP4&index=19&ab_channel=DevPipelineEducation
